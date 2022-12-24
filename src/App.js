@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import firebase from "firebase/app";
 
-signInBtn.onclick = () => auth.signInWithPopUp(provider);
+
 function App() {
   return (
     <div className="App">
