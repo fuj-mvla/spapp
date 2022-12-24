@@ -1,17 +1,36 @@
 // import logo from './logo.svg';
 import './App.css';
-// import firebase from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app } from './firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 function App() {
-  return (
-    <div className="App">
-      <button onClick={logInUser}>Sign in</button>
-    </div>
-  );
+
+  const [user, loading, error] = useAuthState(auth);
+
+  if (loading) {
+    // still loading
+    return (
+      <div>still loading...</div>
+    );
+  }
+
+  if (!user) {
+    // user not logged in
+    return (
+      <div className="App">
+        <button onClick={logInUser}>Sign in</button>
+      </div>
+    );
+  } else if (user) {
+    // user is logged in
+    return (
+      <div>Welcome {user.displayName}!</div>
+    );
+  }
 }
 
 export default App;
