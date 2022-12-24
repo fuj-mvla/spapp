@@ -1,50 +1,54 @@
-// import logo from './logo.svg';
 import './App.css';
 import { app } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import Home from './components/Home/Home';
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 function App() {
 
-  const [user, loading, error] = useAuthState(auth);
+  const [authUser, loadingAuth, errorAuth] = useAuthState(auth);
 
-  if (loading) {
+  if (loadingAuth) {
     // still loading
     return (
       <div>still loading...</div>
     );
   }
 
-  if (!user) {
+  if (!authUser) {
     // user not logged in
     return (
       <div className="App">
         <button onClick={logInUser}>Sign in</button>
       </div>
     );
-  } else if (user) {
+  } else if (authUser) {
     // user is logged in
     return (
-      <div>Welcome {user.displayName}!</div>
+      <Home authUser={authUser} />
     );
   }
 }
 
-export default App;
-
 const logInUser = () => {
   console.log('logInUser was called');
   signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
+    .then(async (result) => {
       const user = result.user;
-      // ...
+
+      // set user document in firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        _id: user.uid,
+        name: user.displayName,
+        email: user.email,
+        role: 'VOLUNTEER',
+      });
+
     }).catch((error) => {
     // Handle Errors here.
     const errorCode = error.code;
@@ -57,18 +61,4 @@ const logInUser = () => {
   });
 };
 
-// <header className="App-header">
-//   <img src={logo} className="App-logo" alt="logo" />
-//   <p>
-//     Edit <code>src/App.js</code> and save to reload.
-//   </p>
-//
-//   <a
-//     className="App-link"
-//     href="https://reactjs.org"
-//     target="_blank"
-//     rel="noopener noreferrer"
-//   >
-//     Learn React
-//   </a>
-// </header>
+export default App;
