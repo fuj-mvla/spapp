@@ -12,10 +12,10 @@ const Home = ({authUser}) => {
     );
   } else {
     return (
-      
+
       <div>No user!
       </div>
-      
+
     );
   }
 };
