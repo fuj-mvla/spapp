@@ -27,9 +27,23 @@ const Profile = ({authUser}) => {
             <br></br>
             <label>Description of event</label>
             <input type="date" name="date"></input>
+            <br></br>
+            <input type="submit" name="submit" value=""></input>
+		<button>Click Me</button>
         </form>
+        
         </div>
     )
+  }
+  else if (user.data().role=="VOLUNTEER"){
+    <ul>
+                <li>Event 1</li>
+                <li>Event 1</li>
+                <li>Event 1</li>
+                <li>Event 1</li>
+                <li>Event 1</li>
+                
+            </ul>
   }
 }
 
