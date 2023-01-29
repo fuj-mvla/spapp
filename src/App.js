@@ -4,6 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import Home from './components/Home/Home';
+import Profile from './components/Profile';
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -29,8 +30,23 @@ function App() {
     );
   } else if (authUser) {
     // user is logged in
+    
     return (
-      <Home authUser={authUser} />
+      <div className= "App">
+      <Home authUser={authUser} 
+      
+      />
+      <article>
+        <p>Welcome Special olympics is a ...</p>
+      </article>
+      <nav>
+        
+        <button onClick={Profile(authUser)}>Create Events</button>
+        
+        
+      </nav>
+      
+      </div>
     );
   }
 }
@@ -43,6 +59,7 @@ const logInUser = () => {
 
       // set user document in firestore
       await setDoc(doc(db, 'users', user.uid), {
+        
         _id: user.uid,
         name: user.displayName,
         email: user.email,
