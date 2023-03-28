@@ -8,10 +8,14 @@ import {app} from '../../firebase';
 import { TextField } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 const db = getFirestore(app);
 
 const Profile = ({authUser}) => {
-
+  const navigate = useNavigate();
+  const navigateHome =()=>{
+    navigate("/s")
+  }
   const [user, loadingUser, errorUser] = useDocument(doc(db, 'users', authUser.uid));
 
   const [activityName, setActivityName] = useState('');
@@ -44,7 +48,7 @@ const Profile = ({authUser}) => {
     await setDoc(docRef, {
       __id: docRef.id,
       _coachId: authUser.uid,
-      description,
+      description:description,
       title: activityName,
       startTimeStamp: null,
       endTimeStamp: dateAndTime.toDate(),
@@ -60,26 +64,7 @@ const Profile = ({authUser}) => {
         // return (<div>user is a COACH</div>);
         return (
             <div>
-            {/*    <ul>*/}
-            {/*        <li>Event 1</li>*/}
-            {/*        <li>Event 1</li>*/}
-            {/*        <li>Event 1</li>*/}
-            {/*        <li>Event 1</li>*/}
-            {/*        <li>Event 1</li>*/}
-            {/*    </ul>*/}
-            {/*<form action ="process.php" method="POST">*/}
-            {/*    <label>Name of Activity</label>*/}
-            {/*    <input type="text" name="activity"></input>*/}
-            {/*    <br></br>*/}
-            {/*    <label>Date and Time</label>*/}
-            {/*    <input type="date" name="date"></input>*/}
-            {/*    <br></br>*/}
-            {/*    <label>Description of event</label>*/}
-            {/*    <input type="date" name="date"></input>*/}
-            {/*    <br></br>*/}
-            {/*    <input type="submit" name="submit" value=""></input>*/}
-      	    {/*    <button>Click Me</button>*/}
-            {/*</form>*/}
+            
               <TextField
                 id="activity-name"
                 label="Name of Activity"
@@ -121,6 +106,7 @@ const Profile = ({authUser}) => {
                   ))}
                 </span>
               )}
+              <button onClick = {navigateHome}>Go Home</button>
             </div>
         )
       } else if (user.data().role == 'VOLUNTEER'){
