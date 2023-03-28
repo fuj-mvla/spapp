@@ -3,12 +3,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useDocument } from 'react-firebase-hooks/firestore';
-import {doc, getFirestore, setDoc, collection, where, query} from 'firebase/firestore';
+import {doc, getFirestore, setDoc, collection, where, query,deleteDoc} from 'firebase/firestore';
 import {app} from '../../firebase';
 import { TextField } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {useNavigate} from 'react-router-dom';
+
 const db = getFirestore(app);
 
 const Profile = ({authUser}) => {
@@ -29,6 +30,12 @@ const Profile = ({authUser}) => {
       where('_coachId', '==', authUser.uid),
     )
   );
+  const deleteData = async () =>{
+    
+
+    await deleteDoc(doc(db, "Events", "tksBfF04pFHQEBHPj1gc"));
+
+  }
 
   const handleFormData = (event) => {
     switch (event.target.id) {
@@ -104,6 +111,7 @@ const Profile = ({authUser}) => {
               <div>Test: {des|| "love men"}</div>
               <div>Date and time: {dateAndTime.toDate().toString() || '(empty)'}</div>
               <button onClick={saveFormData}>save form data</button>
+              <button onClick = {deleteData}>test delete</button>
               <br></br>
             
                 {snapshot && (
