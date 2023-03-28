@@ -10,6 +10,7 @@ const Home = ({authUser}) => {
 
   const navigateToContacts = () => {
     // 👇️ navigate to /contacts
+    
     navigate('/profile');
   };
   if (user) {
