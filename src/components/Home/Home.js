@@ -11,7 +11,10 @@ const Home = ({authUser}) => {
 
   const navigateToContacts = () => {
     // 👇️ navigate to /contacts
-    navigate('/profilesd');
+
+    
+    navigate('/profile');
+
   };
   if (user) {
     return (

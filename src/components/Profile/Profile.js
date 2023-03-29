@@ -3,12 +3,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useDocument } from 'react-firebase-hooks/firestore';
-import {doc, getFirestore, setDoc, collection, where, query} from 'firebase/firestore';
+import {doc, getFirestore, setDoc, collection, where, query,deleteDoc} from 'firebase/firestore';
 import {app} from '../../firebase';
 import { TextField } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+
 const db = getFirestore(app);
 
 const Profile = ({authUser}) => {
@@ -20,6 +21,7 @@ const Profile = ({authUser}) => {
 
   const [activityName, setActivityName] = useState('');
   const [description, setDescription] = useState('');
+  const [des,setDesc] = useState('');
   const [dateAndTime, setDateAndTime] = useState(dayjs('2014-08-18T21:11:54'));
   // Note: here's an example of how to run a query
   const [snapshot, loading, error] = useCollection(
@@ -28,6 +30,12 @@ const Profile = ({authUser}) => {
       where('_coachId', '==', authUser.uid),
     )
   );
+  const deleteData = async () =>{
+    
+
+    await deleteDoc(doc(db, "Events", "tksBfF04pFHQEBHPj1gc"));
+
+  }
 
   const handleFormData = (event) => {
     switch (event.target.id) {
@@ -36,6 +44,9 @@ const Profile = ({authUser}) => {
         break;
       case 'description-of-event':
         setDescription(event.target.value);
+        break;
+      case 'test':
+        setDesc(event.target.value);
         break;
     }
   };
@@ -46,7 +57,7 @@ const Profile = ({authUser}) => {
   const saveFormData = async () => {
     const docRef = doc(collection(db, "Events"));
     await setDoc(docRef, {
-      __id: docRef.id,
+      __id: docRef.id, 
       _coachId: authUser.uid,
       description:description,
       title: activityName,
@@ -69,7 +80,7 @@ const Profile = ({authUser}) => {
                 id="activity-name"
                 label="Name of Activity"
                 value={activityName}
-                variant="outlined"
+                variant="filled"
                 onChange={handleFormData}
               />
               <TextField
@@ -78,6 +89,13 @@ const Profile = ({authUser}) => {
                 value={description}
                 variant="outlined"
                 onChange={handleFormData}
+              />
+              <TextField 
+              id = "test"
+              label="I like Men"
+              value= {des}
+              variant="outlined"
+              onChange={handleFormData}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -90,10 +108,13 @@ const Profile = ({authUser}) => {
               </LocalizationProvider>
               <div>Activity name: {activityName || '(empty)'}</div>
               <div>Description: {description || '(empty)'}</div>
+              <div>Test: {des|| "love men"}</div>
               <div>Date and time: {dateAndTime.toDate().toString() || '(empty)'}</div>
-              <button onClick={saveFormData}></button>
+              <button onClick={saveFormData}>save form data</button>
+              <button onClick = {deleteData}>test delete</button>
               <br></br>
-              {snapshot && (
+            
+                {snapshot && (
                 <span>
                   Collection:{' '}
                   {snapshot.docs.map((doc, i) => (
@@ -101,11 +122,12 @@ const Profile = ({authUser}) => {
                       <div>Event doc #{i+1}</div>
                       <div>Title: {doc.data().title}</div>
                       <div>Description: {doc.data().description}</div>
-                      <br></br>
+                    <br></br>
                     </div>
                   ))}
                 </span>
               )}
+              
               <button onClick = {navigateHome}>Go Home</button>
             </div>
         )

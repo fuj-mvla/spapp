@@ -27,6 +27,7 @@ function App() {
     return (
       <div className="App">
         <button onClick={logInUser}>Sign in</button>
+        
       </div>
     );
   } else if (authUser) {
@@ -39,7 +40,7 @@ function App() {
             <Route path="/" element={<Home authUser={authUser} />} />
           </Routes>
           <Routes>
-            <Route path="/profilesd" element={<Profile authUser={authUser} />} />
+            <Route path="/profile" element={<Profile authUser={authUser} />} />
           </Routes>
           <Routes>
             
@@ -58,6 +59,9 @@ const logInUser = () => {
       const user = result.user;
 
       // set user document in firestore
+     
+
+
       await setDoc(doc(db, 'users', user.uid), {
 
         _id: user.uid,
