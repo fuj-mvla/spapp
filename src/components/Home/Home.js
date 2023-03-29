@@ -2,6 +2,7 @@ import {useDocument} from 'react-firebase-hooks/firestore';
 import {doc, getFirestore} from 'firebase/firestore';
 import {app} from '../../firebase';
 import {Routes, Route, useNavigate} from 'react-router-dom';
+import "./Home.css";
 const db = getFirestore(app);
 
 const Home = ({authUser}) => {
@@ -10,13 +11,13 @@ const Home = ({authUser}) => {
 
   const navigateToContacts = () => {
     // 👇️ navigate to /contacts
-    navigate('/profile');
+    navigate('/profilesd');
   };
   if (user) {
     return (
-      <div>
+      <div className='jack'>
         Welcome {user.data().name}!
-        <button onClick={navigateToContacts}>Contacts</button>
+        <button id="as" onClick={navigateToContacts}>Contacts</button>
 
       </div>
     );

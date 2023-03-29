@@ -36,10 +36,10 @@ function App() {
       <div className= "App">
         <BrowserRouter>
           <Routes>
-            <Route path="/s" element={<Home authUser={authUser} />} />
+            <Route path="/" element={<Home authUser={authUser} />} />
           </Routes>
           <Routes>
-            <Route path="/profile" element={<Profile authUser={authUser} />} />
+            <Route path="/profilesd" element={<Profile authUser={authUser} />} />
           </Routes>
           <Routes>
             
