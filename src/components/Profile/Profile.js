@@ -15,7 +15,7 @@ const db = getFirestore(app);
 const Profile = ({authUser}) => {
   const navigate = useNavigate();
   const navigateHome =()=>{
-    navigate("/s")
+    navigate("/")
   }
   const [user, loadingUser, errorUser] = useDocument(doc(db, 'users', authUser.uid));
 
@@ -131,7 +131,7 @@ const Profile = ({authUser}) => {
               <button onClick = {navigateHome}>Go Home</button>
             </div>
         )
-      } else if (user.data().role == 'VOLUNTEER'){
+      } else if (user.data().role === 'VOLUNTEER'){
         return (
           <ul>
             <li>Event 1</li>

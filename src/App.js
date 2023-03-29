@@ -5,6 +5,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
+import Button from './components/Button/Button';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const auth = getAuth(app);
@@ -26,8 +27,7 @@ function App() {
     // user not logged in
     return (
       <div className="App">
-        <button onClick={logInUser}>Sign in</button>
-        
+        <Button text='Log In User' logIn={logInUser}/>        
       </div>
     );
   } else if (authUser) {
