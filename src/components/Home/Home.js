@@ -3,6 +3,9 @@ import {doc, getFirestore} from 'firebase/firestore';
 import {app} from '../../firebase';
 import {useNavigate} from 'react-router-dom';
 import Button from '../Button/Button';
+import {Routes, Route, useNavigate} from 'react-router-dom';
+import "./Home.css";
+
 const db = getFirestore(app);
 
 const Home = ({authUser}) => {
@@ -11,8 +14,10 @@ const Home = ({authUser}) => {
 
   const navigateToProfile = () => {
     // 👇️ navigate to /contacts
+
     
     navigate('/profile');
+
   };
   if (user) {
     
