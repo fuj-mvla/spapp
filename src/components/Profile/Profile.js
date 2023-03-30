@@ -37,6 +37,10 @@ const Profile = ({authUser}) => {
     await deleteDoc(doc(db, "Events", "tksBfF04pFHQEBHPj1gc"));
 
   }
+  const updateRoles= ()=>{
+    let t1 = document.getElementById('role');
+    console.log(t1.value);
+  }
 
   const handleFormData = (event) => {
     switch (event.target.id) {
@@ -135,7 +139,18 @@ const Profile = ({authUser}) => {
       } else if (user.data().role === 'VOLUNTEER'){
         return (
           <div>
-            <div><Button variant="contained"onClick={navigateHome}>Test Go home</Button></div>
+            <Button className="bg-red-400"variant="contained"onClick={navigateHome}>Test Go home</Button>
+            <div>
+            <label for="roles">Please select which role you are</label>
+            <select className="outline outline-red-400 outline-1" name = "roles" id ="role">
+             
+              <option value="volunteer">Volunteer</option>
+             <option value="coach">Coach</option>
+               <option value="athlete">Athlete</option>
+             </select>
+             <br></br>
+             <button className="outline outline-red rounded-md h-12 bg-red-500"onClick={updateRoles}>CHANGE ROLES</button>
+             </div>
             <ul>
                <li>Event 1</li>
                <li>Event 1</li>

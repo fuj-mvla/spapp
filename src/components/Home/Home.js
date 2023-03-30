@@ -31,9 +31,9 @@ const Home = ({authUser}) => {
     }
     else{
       return(
-      <div>
-         <div className="text-3xl">Welcome {user.data().name}</div>
-          <button className="outline rounded-full h-12 bg-red-400"onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
+      <div className="relative ">
+         <p className="relative text-2xl  ">Welcome {user.data().name}</p>
+          <button className="outline outline-red rounded-md h-12 bg-red-400 "onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
         </div>
       );
     }

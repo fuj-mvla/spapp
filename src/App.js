@@ -63,7 +63,7 @@ const logInUser = () => {
      
 
 
-      await setDoc(doc(db, 'users', user.uid), {
+      await setDoc(doc(db, 'users', user.email), {
 
         _id: user.uid,
         name: user.displayName,
