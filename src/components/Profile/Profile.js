@@ -18,7 +18,7 @@ const Profile = ({authUser}) => {
   const navigateHome =()=>{
     navigate("/")
   }
-  const [user, loadingUser, errorUser] = useDocument(doc(db, 'users', authUser.uid));
+  const [user, loadingUser, errorUser] = useDocument(doc(db, 'users', authUser.email));
 
   const [activityName, setActivityName] = useState('');
   const [description, setDescription] = useState('');
@@ -37,11 +37,7 @@ const Profile = ({authUser}) => {
     await deleteDoc(doc(db, "Events", "tksBfF04pFHQEBHPj1gc"));
 
   }
-  const updateRoles= ()=>{
-    let t1 = document.getElementById('role');
-    console.log(t1.value);
-  }
-
+  
   const handleFormData = (event) => {
     switch (event.target.id) {
       case 'activity-name':
@@ -58,6 +54,17 @@ const Profile = ({authUser}) => {
   const handleTimeAndDateData = (newDayJs) => {
     setDateAndTime(newDayJs);
   };
+  const updateRoles= async()=>{
+    let t1 = document.getElementById('role');
+    let text = t1.value.toUpperCase();
+  
+    await setDoc(doc(db,"users",authUser.email),{role:text},{merge:true})
+    .then(() => {
+      console.log("Document successfully written!");
+    }).catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+  }
 
   const saveFormData = async () => {
     const docRef = doc(collection(db, "Events"));
@@ -85,9 +92,10 @@ const Profile = ({authUser}) => {
                 id="activity-name"
                 label="Name of Activity"
                 value={activityName}
-                variant="filled"
+                variant="outlined"
                 onChange={handleFormData}
               />
+              <br></br>
               <TextField
                 id="description-of-event"
                 label="Description of event"
@@ -95,6 +103,7 @@ const Profile = ({authUser}) => {
                 variant="outlined"
                 onChange={handleFormData}
               />
+               <br></br>
               <TextField 
               id = "test"
               label="I like Men"
@@ -102,6 +111,7 @@ const Profile = ({authUser}) => {
               variant="outlined"
               onChange={handleFormData}
               />
+               <br></br>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   id="date-and-time"
@@ -110,13 +120,14 @@ const Profile = ({authUser}) => {
                   onChange={handleTimeAndDateData}
                   renderInput={(params) => <TextField {...params} />}
                 />
+                 <br></br>
               </LocalizationProvider>
               <div>Activity name: {activityName || '(empty)'}</div>
               <div>Description: {description || '(empty)'}</div>
               <div>Test: {des|| "love men"}</div>
               <div>Date and time: {dateAndTime.toDate().toString() || '(empty)'}</div>
-              <button onClick={saveFormData}>save form data</button>
-              <button onClick = {deleteData}>test delete</button>
+              <button className="outline outline-1"onClick={saveFormData}>save form data</button>
+             
               <br></br>
             
                 {snapshot && (
@@ -133,7 +144,18 @@ const Profile = ({authUser}) => {
                 </span>
               )}
               
-              <button onClick = {navigateHome}>Go Home</button>
+              <button className="outline outline-1"onClick = {navigateHome}>Go Home</button>
+              <div>
+            <label for="roles">Please select which role you are</label>
+            <select className="outline outline-red-400 outline-1" name = "roles" id ="role">
+             
+              <option value="volunteer">Volunteer</option>
+             <option value="coach">Coach</option>
+               <option value="athlete">Athlete</option>
+             </select>
+             <br></br>
+             <button className="outline outline-red rounded-md h-12 bg-red-500"onClick={updateRoles}>CHANGE ROLES</button>
+             </div>
             </div>
         )
       } else if (user.data().role === 'VOLUNTEER'){

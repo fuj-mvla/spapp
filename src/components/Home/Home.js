@@ -8,7 +8,7 @@ import "./Home.css";
 const db = getFirestore(app);
 
 const Home = ({authUser}) => {
-  const [user, loadingUser, errorUser] = useDocument(doc(db, 'users', authUser.uid));
+  const [user, loadingUser, errorUser] = useDocument(doc(db, 'users', authUser.email));
   const navigate = useNavigate();
 
   const navigateToProfile = () => {
@@ -24,16 +24,16 @@ const Home = ({authUser}) => {
       return(
         <div>
           <div>Welcome {user.data().name}</div>
-          <button onClick={navigateToProfile}>CREATE EVENTS</button>
+          <button className="text-white rounded-md w-40 h-12 bg-red-400 "onClick={navigateToProfile}>CREATE EVENTS</button>
       </div>
       );
       
     }
     else{
       return(
-      <div className="relative ">
-         <p className="relative text-2xl  ">Welcome {user.data().name}</p>
-          <button className="outline outline-red rounded-md h-12 bg-red-400 "onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
+      <div >
+         <p className="text-2xl  ">Welcome {user.data().name}</p>
+          <button className="text-white rounded-md w-40 h-12 bg-red-400 "onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
         </div>
       );
     }

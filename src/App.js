@@ -27,7 +27,7 @@ function App() {
     // user not logged in
     return (
       <div className="App">
-        <Button text='Log In User' logIn={logInUser}/>        
+        <button className="outline outline-red-400 outline-1 "onClick={logInUser}>Log In User</button>        
       </div>
     );
   } else if (authUser) {
