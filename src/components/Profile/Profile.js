@@ -6,6 +6,7 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 import {doc, getFirestore, setDoc, collection, where, query,deleteDoc} from 'firebase/firestore';
 import {app} from '../../firebase';
 import { TextField } from '@mui/material';
+import {Button} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {useNavigate} from 'react-router-dom';
@@ -75,7 +76,7 @@ const Profile = ({authUser}) => {
         // return (<div>user is a COACH</div>);
         return (
             <div>
-            
+              
               <TextField
                 id="activity-name"
                 label="Name of Activity"
@@ -133,13 +134,16 @@ const Profile = ({authUser}) => {
         )
       } else if (user.data().role === 'VOLUNTEER'){
         return (
-          <ul>
-            <li>Event 1</li>
-            <li>Event 1</li>
-            <li>Event 1</li>
-            <li>Event 1</li>
-            <li>Event 1</li>
+          <div>
+            <div><Button variant="contained"onClick={navigateHome}>Test Go home</Button></div>
+            <ul>
+               <li>Event 1</li>
+               <li>Event 1</li>
+               <li>Event 1</li>
+               <li>Event 1</li>
+               <li>Event 1</li>
           </ul>
+          </div>
         );
       }
     }

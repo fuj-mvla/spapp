@@ -35,6 +35,7 @@ function App() {
 
     return (
       <div className= "App">
+        <h1 className="text-2xl">test</h1>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home authUser={authUser} />} />

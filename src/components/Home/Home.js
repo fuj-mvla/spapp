@@ -3,7 +3,6 @@ import {doc, getFirestore} from 'firebase/firestore';
 import {app} from '../../firebase';
 import {useNavigate} from 'react-router-dom';
 import Button from '../Button/Button';
-import {Routes, Route, useNavigate} from 'react-router-dom';
 import "./Home.css";
 
 const db = getFirestore(app);
@@ -33,8 +32,8 @@ const Home = ({authUser}) => {
     else{
       return(
       <div>
-         <div>Welcome {user.data().name}</div>
-          <button onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
+         <div className="text-3xl">Welcome {user.data().name}</div>
+          <button className="outline rounded-full h-12 bg-red-400"onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
         </div>
       );
     }
