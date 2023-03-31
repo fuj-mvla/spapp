@@ -27,7 +27,7 @@ function App() {
     // user not logged in
     return (
       <div className="App">
-        <Button text='Log In User' logIn={logInUser}/>        
+        <button className="outline outline-red-400 outline-1 "onClick={logInUser}>Log In User</button>        
       </div>
     );
   } else if (authUser) {
@@ -35,6 +35,7 @@ function App() {
 
     return (
       <div className= "App">
+        <h1 className="text-2xl">test</h1>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home authUser={authUser} />} />
@@ -62,7 +63,7 @@ const logInUser = () => {
      
 
 
-      await setDoc(doc(db, 'users', user.uid), {
+      await setDoc(doc(db, 'users', user.email), {
 
         _id: user.uid,
         name: user.displayName,
