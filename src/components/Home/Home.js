@@ -3,7 +3,7 @@ import {doc, getFirestore} from 'firebase/firestore';
 import {app} from '../../firebase';
 import {useNavigate} from 'react-router-dom';
 import Button from '../Button/Button';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+
 import "./Home.css";
 
 const db = getFirestore(app);
@@ -34,7 +34,7 @@ const Home = ({authUser}) => {
       return(
       <div>
          <div>Welcome {user.data().name}</div>
-          <button onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
+          <button id = "b1"onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
         </div>
       );
     }

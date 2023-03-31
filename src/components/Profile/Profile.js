@@ -133,13 +133,16 @@ const Profile = ({authUser}) => {
         )
       } else if (user.data().role === 'VOLUNTEER'){
         return (
-          <ul>
+          <div> <ul>
             <li>Event 1</li>
+           <li>Event 1</li>
+           < li>Event 1</li>
             <li>Event 1</li>
-            <li>Event 1</li>
-            <li>Event 1</li>
-            <li>Event 1</li>
-          </ul>
+           <li>Event 1</li>
+        </ul>
+        <button onClick={navigateHome}>Go to Home</button>
+        </div>
+         
         );
       }
     }
