@@ -7,7 +7,7 @@ import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
 import Button from './components/Button/Button';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
+import Navbar from './components/Navbar/Navbar';
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
@@ -34,8 +34,9 @@ function App() {
     // user is logged in
 
     return (
-      <div className= "App">
-        <h1 className="text-2xl">test</h1>
+      <div className="h-screen bg-gradient-to-r from-red-300 to-red-100">
+        <div>asdas</div>
+    
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home authUser={authUser} />} />
@@ -44,7 +45,7 @@ function App() {
             <Route path="/profile" element={<Profile authUser={authUser} />} />
           </Routes>
           <Routes>
-            
+        
           </Routes>
           
         </BrowserRouter>

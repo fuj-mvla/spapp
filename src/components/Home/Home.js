@@ -33,9 +33,9 @@ const Home = ({authUser}) => {
       return(
 
      
-      <div >
-         <p className="text-2xl  ">Welcome {user.data().name}</p>
-          <button className="text-white rounded-md w-40 h-12 bg-red-400 "onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
+      <div className="relative left-1/3 w-64 h-64 bg-red-200">
+         <p className="  text-2xl  ">Welcome {user.data().name}</p>
+          <button className=" absolute bottom-1/2 left-0  text-white rounded-md     w-40 h-12 bg-red-400 "onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
 
         </div>
       );

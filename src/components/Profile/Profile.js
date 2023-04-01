@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useDocument } from 'react-firebase-hooks/firestore';
-import {doc, getFirestore, setDoc, collection, where, query,deleteDoc} from 'firebase/firestore';
+import {doc, getFirestore, setDoc, collection, where, query,getDoc} from 'firebase/firestore';
 import {app} from '../../firebase';
 import { TextField } from '@mui/material';
 import {Button} from '@mui/material';
@@ -14,29 +14,34 @@ import {useNavigate} from 'react-router-dom';
 const db = getFirestore(app);
 
 const Profile = ({authUser}) => {
-  const navigate = useNavigate();
-  const navigateHome =()=>{
-    navigate("/")
-  }
+ 
   const [user, loadingUser, errorUser] = useDocument(doc(db, 'users', authUser.email));
 
   const [activityName, setActivityName] = useState('');
   const [description, setDescription] = useState('');
-  const [des,setDesc] = useState('');
+  const [location,setLocation] = useState('');
   const [dateAndTime, setDateAndTime] = useState(dayjs('2014-08-18T21:11:54'));
   // Note: here's an example of how to run a query
   const [snapshot, loading, error] = useCollection(
     query(
       collection(db, 'Events'),
       where('_coachId', '==', authUser.uid),
+      
     )
   );
-  const deleteData = async () =>{
-    
-
-    await deleteDoc(doc(db, "Events", "tksBfF04pFHQEBHPj1gc"));
-
+  const [snapshot2, loadings, errors] = useCollection(
+    query(
+      collection(db, 'Events'),
+      
+      
+    )
+  );
+  const navigate = useNavigate();
+  const navigateHome =()=>{
+    navigate("/")
   }
+ 
+
   
   const handleFormData = (event) => {
     switch (event.target.id) {
@@ -46,8 +51,8 @@ const Profile = ({authUser}) => {
       case 'description-of-event':
         setDescription(event.target.value);
         break;
-      case 'test':
-        setDesc(event.target.value);
+      case 'loc':
+        setLocation(event.target.value);
         break;
     }
   };
@@ -65,7 +70,20 @@ const Profile = ({authUser}) => {
       console.error("Error writing document: ", error);
     });
   }
-
+  const joinEvent=async (id)=>{
+    const docRef = doc(db, "Events", id);
+    const docSnap = await getDoc(docRef);
+    await setDoc(doc(db,"Volunteering",docSnap.data().__id),
+    {
+      eventid:docSnap.data().__id,
+      userid: authUser.uid
+    }).then(() => {
+      console.log("Document successfully written!");
+    }).catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+   
+  }
   const saveFormData = async () => {
     const docRef = doc(collection(db, "Events"));
     await setDoc(docRef, {
@@ -73,8 +91,9 @@ const Profile = ({authUser}) => {
       _coachId: authUser.uid,
       description:description,
       title: activityName,
-      startTimeStamp: null,
-      endTimeStamp: dateAndTime.toDate(),
+      location: location,
+      startTimeStamp: dateAndTime.toDate(),
+      endTimeStamp: null,
     }).then(() => {
       console.log("Document successfully written!");
     }).catch((error) => {
@@ -105,9 +124,9 @@ const Profile = ({authUser}) => {
               />
                <br></br>
               <TextField 
-              id = "test"
-              label="I like Men"
-              value= {des}
+              id = "loc"
+              label="Location"
+              value= {location}
               variant="outlined"
               onChange={handleFormData}
               />
@@ -124,7 +143,7 @@ const Profile = ({authUser}) => {
               </LocalizationProvider>
               <div>Activity name: {activityName || '(empty)'}</div>
               <div>Description: {description || '(empty)'}</div>
-              <div>Test: {des|| "love men"}</div>
+            <div>Location: {location|| '(empty)'}</div>
               <div>Date and time: {dateAndTime.toDate().toString() || '(empty)'}</div>
               <button className="outline outline-1"onClick={saveFormData}>save form data</button>
              
@@ -136,8 +155,9 @@ const Profile = ({authUser}) => {
                   {snapshot.docs.map((doc, i) => (
                     <div key={doc.id}>
                       <div>Event doc #{i+1}</div>
-                      <div>Title: {doc.data().title}</div>
+                      <div>Event Name: {doc.data().title}</div>
                       <div>Description: {doc.data().description}</div>
+                      <div>Location: {doc.data().location}</div>
                     <br></br>
                     </div>
                   ))}
@@ -161,8 +181,25 @@ const Profile = ({authUser}) => {
       } else if (user.data().role === 'VOLUNTEER'){
         return (
 
-          <div>
+          <div className="relative h-1/2 w-1/2 ">
             <Button className="bg-red-400"variant="contained"onClick={navigateHome}>Test Go home</Button>
+            <div className="text-4xl font-mono">Events coming up</div>
+            {snapshot2 && (
+                <span>
+                  Collection:{' '}
+                  {snapshot2.docs.map((doc, i) => (
+                    <div key={doc.id}>
+                      <div className="relative bg-red-200 w-1/2">
+                        <div>Event Name: {doc.data().title}  Location: {doc.data().location}</div>
+                     
+                      <button className = "relative left-24 hover:text-blue-500" onClick={()=>joinEvent(doc.data().__id)}>Sign up for this event</button>
+                      </div>
+                     
+                    <br></br>
+                    </div>
+                  ))}
+                </span>
+              )}
             <div>
             <label for="roles">Please select which role you are</label>
             <select className="outline outline-red-400 outline-1" name = "roles" id ="role">
@@ -172,15 +209,11 @@ const Profile = ({authUser}) => {
                <option value="athlete">Athlete</option>
              </select>
              <br></br>
-             <button className="outline outline-red rounded-md h-12 bg-red-500"onClick={updateRoles}>CHANGE ROLES</button>
+             <button className=" rounded-md h-12 w-40 bg-red-500 text-white text-sm"onClick={updateRoles}>CHANGE ROLES</button>
+            
+             
              </div>
-            <ul>
-               <li>Event 1</li>
-               <li>Event 1</li>
-               <li>Event 1</li>
-               <li>Event 1</li>
-               <li>Event 1</li>
-          </ul>
+           
           </div>
 
         );
