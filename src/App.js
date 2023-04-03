@@ -34,7 +34,7 @@ function App() {
     // user is logged in
 
     return (
-      <div className= "App">
+      <div className="h-screen bg-gradient-to-r from-red-400 to-red-200">
         <h1 className="text-2xl">test</h1>
         <BrowserRouter>
           <Routes>
