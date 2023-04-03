@@ -7,7 +7,7 @@ import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
 import Button from './components/Button/Button';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
+import Navbar from './components/Navbar/Navbar';
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
@@ -26,16 +26,20 @@ function App() {
   if (!authUser) {
     // user not logged in
     return (
-      <div className="App">
-        <button className="outline outline-red-400 outline-1 "onClick={logInUser}>Log In User</button>        
+      <div className=" relative h-screen bg-orange-100 text-center  ">
+      <div className="absolute bg-white rounded-xl  top-1/3  w-96 h-96 left-1/3">
+        <div className="absolute text-4xl left-36 top-1/4">Login</div>
+        <button className="relative outline outline-red-400 bg-red-500 outline-1 rounded-full w-64 h-16 text-white top-2/3 "onClick={logInUser}>Sign in with Google</button>        
+      </div>
       </div>
     );
   } else if (authUser) {
     // user is logged in
 
     return (
-      <div className="h-screen bg-gradient-to-r from-red-400 to-red-200">
-        <h1 className="text-2xl">test</h1>
+      <div className="h-screen bg-orange-50">
+    
+    
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home authUser={authUser} />} />
@@ -44,7 +48,7 @@ function App() {
             <Route path="/profile" element={<Profile authUser={authUser} />} />
           </Routes>
           <Routes>
-            
+        
           </Routes>
           
         </BrowserRouter>
