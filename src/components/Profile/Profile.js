@@ -21,7 +21,7 @@ const Profile = ({authUser}) => {
   const [activityName, setActivityName] = useState('');
   const [description, setDescription] = useState('');
   const [location,setLocation] = useState('');
-  const[roster,setRoster] = useState([]);
+  const[phone,setPhone] = useState([]);
   const [dateAndTime, setDateAndTime] = useState(dayjs('2014-08-18T21:11:54'));
   // Note: here's an example of how to run a query
   const [snapshot, loading, error] = useCollection(
@@ -52,23 +52,11 @@ const Profile = ({authUser}) => {
   const navigateProfile =()=>{
     navigate("/profile")
   }
- 
-  const getRoster= async (doc)=>{
-    const citiesRef = collection(db, "Volunteering");
-    console.log(doc.data().__id);
-  // Create a query against the collection.
-    const q = query(citiesRef, where("eventid", "==", doc.data().__id));
-    const querySnapshot = await getDocs(q);
-    let x = []
-      querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-        x.push(
-          doc.data().userid
-          
-        )
-});
-    setRoster(x);
+  const navigateCoach =()=>{
+    navigate("/coaches")
   }
+ 
+ 
 
   
   const handleFormData = (event) => {
@@ -82,6 +70,8 @@ const Profile = ({authUser}) => {
       case 'loc':
         setLocation(event.target.value);
         break;
+      case 'phone':
+        setPhone(event.target.value);
     }
   };
   const handleTimeAndDateData = (newDayJs) => {
@@ -135,6 +125,9 @@ const Profile = ({authUser}) => {
     await deleteDoc(docRef);
 
   }
+  const updatePhone=async ()=>{
+    await setDoc(doc(db,"users",authUser.email),{phone:phone},{merge:true})
+  }
   const saveFormData = async () => {
     const docRef = doc(collection(db, "Events"));
     await setDoc(docRef, {
@@ -157,7 +150,7 @@ const Profile = ({authUser}) => {
         // return (<div>user is a COACH</div>);
         return (
             <div className="relative ">
-              <Navbar navigate={navigateHome} navigateP={navigateProfile}/>
+              <Navbar navigate={navigateHome} navigateP={navigateProfile} navigateC={navigateCoach}/>
               <div className="relative   text-center ">
               <TextField
                 id="activity-name"
@@ -182,7 +175,7 @@ const Profile = ({authUser}) => {
               variant="outlined"
               onChange={handleFormData}
               />
-               <div className="p-1"></div>
+              <br className="pb-2"></br>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   id="date-and-time"
@@ -193,15 +186,28 @@ const Profile = ({authUser}) => {
                 />
                  <br></br>
               </LocalizationProvider>
+              <div className="p-1 text-2xl"> Update your Phone Number</div>
+               <TextField 
+              id = "phone"
+              label="Enter Phone Number"
+              value= {phone}
+              variant="outlined"
+              onChange={handleFormData}
+              />
+              <br></br>
+              <button className="rounded-md h-8 w-32 bg-red-500 text-white text-xs" onClick={updatePhone}>Update Phone Number</button>
               </div>
               <div className="relative  text-center ">
               <div>Activity name: {activityName }</div>
               <div>Description: {description || '(empty)'}</div>
             <div>Location: {location|| '(empty)'}</div>
+            
               <div>Date and time: {dateAndTime.toDate().toString() || '(empty)'}</div>
               <button className="rounded-md h-8 w-32 bg-red-500 text-white text-xs"onClick={saveFormData}>ENTER</button>
+              <div>Phone Number: {phone}</div>
+              
               </div>
-            
+             
               <div className='relative text-center text-3xl'>Events Created:</div>
                 {snapshot && (
                 <span>
@@ -225,8 +231,8 @@ const Profile = ({authUser}) => {
                <div className="text-center">
              
              <br></br>
-            <label for="roles">Please select which role you are</label>
-            <select className="outline outline-red-400 outline-1" name = "roles" id ="role">
+            <label className = "pr-1"for="roles">Please select which role you are</label>
+            <select className="bg-orange-50 outline-1 rounded-md" name = "roles" id ="role">
              
               <option value="volunteer">Volunteer</option>
              <option value="coach">Coach</option>
@@ -241,7 +247,7 @@ const Profile = ({authUser}) => {
         return (
 
           <div className="relative  ">
-           <Navbar navigate={navigateHome} navigateP={navigateProfile}/>
+           <Navbar navigate={navigateHome} navigateP={navigateProfile}  navigateC={navigateCoach}/>
           <div className="relative text-center">
             {snapshot2 && (
                 <span>
