@@ -186,7 +186,9 @@ const Profile = ({authUser}) => {
                 />
                  <br></br>
               </LocalizationProvider>
-              <div className="p-1 text-2xl"> Update your Phone Number</div>
+
+              <div className="pb-1 text-2xl"> Update your Phone Number
+              <br></br>
                <TextField 
               id = "phone"
               label="Enter Phone Number"
@@ -194,17 +196,14 @@ const Profile = ({authUser}) => {
               variant="outlined"
               onChange={handleFormData}
               />
-              <br></br>
-              <button className="rounded-md h-8 w-32 bg-red-500 text-white text-xs" onClick={updatePhone}>Update Phone Number</button>
               </div>
-              <div className="relative  text-center ">
-              <div>Activity name: {activityName }</div>
-              <div>Description: {description || '(empty)'}</div>
-            <div>Location: {location|| '(empty)'}</div>
-            
-              <div>Date and time: {dateAndTime.toDate().toString() || '(empty)'}</div>
-              <button className="rounded-md h-8 w-32 bg-red-500 text-white text-xs"onClick={saveFormData}>ENTER</button>
-              <div>Phone Number: {phone}</div>
+              <br></br>
+              <button className="rounded-md h-8 w-32 bg-red-500 text-white text-xs " onClick={updatePhone}>Update Phone Number</button>
+              </div>
+              <div className="relative  text-center pt-2 ">
+             
+              <button className="rounded-md h-8 w-32 bg-red-500 text-white text-xs "onClick={saveFormData}>ENTER</button>
+              <div className ="">Phone Number: {phone}</div>
               
               </div>
              

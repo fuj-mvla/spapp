@@ -9,6 +9,7 @@ import Button from './components/Button/Button';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Coaches from './components/Coaches/Coaches'
+import Roster from './components/Roster/Roster'
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
@@ -51,7 +52,7 @@ function App() {
           <Routes>
           <Route path="/coaches" element={<Coaches />} />
           </Routes>
-          
+         
         </BrowserRouter>
       </div>
     );

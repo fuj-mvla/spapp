@@ -38,7 +38,7 @@ const Home = ({authUser}) => {
       return(
         <div className="relative ">
            <Navbar navigate={navigateHome} navigateP={navigateToProfile} navigateC={navigateCoach}/>
-           <div className="relative text-center right-24">
+           <div className="relative text-center ">
           <div className="text-3xl font-bold pb-4">Welcome {user.data().name}</div>
           <button className="text-white rounded-md w-40 h-12 bg-red-400 "onClick={navigateToProfile}>CREATE EVENTS</button>
       </div>
@@ -54,6 +54,7 @@ const Home = ({authUser}) => {
         <Navbar navigate={navigateHome} navigateP={navigateToProfile} navigateC={navigateCoach}/>
         <div className="relative text-center right-24">
          <p className="  text-2xl pb-8 ">Welcome {user.data().name}</p>
+         <p>I like men</p>
           <button className="  bottom-1/2 left-0  text-white rounded-md     w-40 h-12 bg-red-400 "onClick={navigateToProfile}>SIGN UP FOR EVENTS</button>
           </div>
         </div>
